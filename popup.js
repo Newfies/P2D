@@ -5,8 +5,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     const sendBtn = document.getElementById('sendBtn');
 
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-    titleInput.value = tab.title;
     linkInput.value = tab.url;
+    
+    // Attempt to get the Patreon post title from the page
+    chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        func: () => {
+            const postTitleElement = document.querySelector('[data-tag="post-title"]');
+            return postTitleElement ? postTitleElement.textContent : document.title;
+        }
+    }).then(([result]) => {
+        titleInput.value = result.result;
+    }).catch(() => {
+        titleInput.value = document.title;
+    });
 
     sendBtn.addEventListener('click', async () => {
         const webhookUrl = await getWebhookUrl();
