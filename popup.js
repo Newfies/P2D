@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     linkInput.value = tab.url;
     
-    // Attempt to get the Patreon post title from the page
     chrome.scripting.executeScript({
         target: { tabId: tab.id },
         func: () => {
@@ -21,16 +20,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     sendBtn.addEventListener('click', async () => {
-        const webhookUrl = await getWebhookUrl();
+        const { webhookUrl, botName, embedColor, webhookLogo } = await getSettings();
         if (!webhookUrl) return alert('Webhook URL not set in options.');
 
         const embed = {
-            username: "Patreon Bot",
+            username: botName || "From Patreon",
+            avatar_url: webhookLogo || "patreon.png",
             embeds: [{
                 title: titleInput.value,
                 url: linkInput.value,
                 description: messageInput.value,
-                color: 7506394
+                color: parseInt((embedColor || "#bb2222").replace('#', ''), 16)
             }]
         };
 
@@ -44,10 +44,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         }).catch(err => alert('Error: ' + err.message));
     });
 
-    async function getWebhookUrl() {
+    async function getSettings() {
         return new Promise(resolve => {
-            chrome.storage.sync.get(['webhookUrl'], (result) => {
-                resolve(result.webhookUrl);
+            chrome.storage.sync.get(["webhookUrl", "botName", "embedColor", "webhookLogo"], (result) => {
+                resolve(result);
             });
         });
     }

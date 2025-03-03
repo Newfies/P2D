@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Patreon to Discord Notifier",
-    "version": "1.0.1",
+    "version": "1.1.0",
     "description": "Notify Discord via webhook when a new Patreon post is made.",
     "permissions": ["storage", "activeTab", "scripting"],
     "action": {
