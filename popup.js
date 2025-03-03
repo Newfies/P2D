@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const embed = {
             username: botName || "From Patreon",
-            avatar_url: webhookLogo || "patreon.png",
+            avatar_url: webhookLogo || "https://github.com/Newfies/PatreonSend/blob/main/patreon.png?raw=true",
             embeds: [{
                 title: titleInput.value,
                 url: linkInput.value,
