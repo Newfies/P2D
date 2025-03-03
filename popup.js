@@ -20,16 +20,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     sendBtn.addEventListener('click', async () => {
-        const { webhookUrl, botName, embedColor, webhookLogo } = await getSettings();
+        const { webhookUrl, botName, embedColor, webhookLogo, roleId } = await getSettings();
         if (!webhookUrl) return alert('Webhook URL not set in options.');
+
+        const rolePing = roleId ? `<@&${roleId}> ` : '';
+        const log = document.getElementById('log');
 
         const embed = {
             username: botName || "From Patreon",
             avatar_url: webhookLogo || "https://github.com/Newfies/PatreonSend/blob/main/patreon.png?raw=true",
+            content: rolePing + messageInput.value,
             embeds: [{
                 title: titleInput.value,
                 url: linkInput.value,
-                description: messageInput.value,
                 color: parseInt((embedColor || "#bb2222").replace('#', ''), 16)
             }]
         };
@@ -39,14 +42,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(embed)
         }).then(res => {
-            if (res.ok) alert('Message sent!');
-            else alert('Failed to send message.');
+            //if (res.ok) alert('Message sent!');
+            if (res.ok) log.innerHTML('Message sent!');
+            // else alert('Failed to send message.');
+            else log.innerHTML('Message sent!');
         }).catch(err => alert('Error: ' + err.message));
     });
 
     async function getSettings() {
         return new Promise(resolve => {
-            chrome.storage.sync.get(["webhookUrl", "botName", "embedColor", "webhookLogo"], (result) => {
+            chrome.storage.sync.get(["webhookUrl", "botName", "embedColor", "webhookLogo", "roleId"], (result) => {
                 resolve(result);
             });
         });
