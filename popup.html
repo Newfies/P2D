@@ -2,18 +2,20 @@
 <html>
 <head>
     <title>Patreon to Discord</title>
-    <style>
-        body { font-family: Arial, sans-serif; padding: 10px; }
-        input, button { margin: 5px 0; width: 100%; }
-    </style>
+    <link rel="stylesheet" href="res/stylesheets/popup.css">
+    <link rel="icon" type="image/png" sizes="16x16" href="res/icons/logo_16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="res/icons/logo_32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="res/icons/logo_48.png">
+    <link rel="icon" type="image/png" sizes="128x128" href="res/icons/logo_128.png">
 </head>
 <body>
-    <h2>Send to Discord</h2>
+    <h2>Patreon to Discord</h2>
     <input type="text" id="title" placeholder="Title">
     <input type="text" id="link" placeholder="Link">
     <textarea id="message" placeholder="Message"></textarea>
     <h2 id="log"></h2>
     <button id="sendBtn">Send to Discord</button>
+    <footer class="disclaimer">Neither "Patreon to Discord" nor "P2D" is affiliated with or endorsed by Discord or Patreon.</footer>
     <script src="popup.js"></script>
 </body>
 </html>

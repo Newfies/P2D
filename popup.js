@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const embed = {
             username: botName || "From Patreon",
-            avatar_url: webhookLogo || "https://github.com/Newfies/PatreonSend/blob/main/patreon.png?raw=true",
+            avatar_url: webhookLogo || "https://github.com/Newfies/P2D/blob/main/res/icons/patreon.png?raw=true",
             content: rolePing + messageInput.value,
             embeds: [{
                 title: titleInput.value,
@@ -38,15 +38,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
 
         fetch(webhookUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(embed)
-        }).then(res => {
-            //if (res.ok) alert('Message sent!');
-            if (res.ok) log.innerHTML('Message sent!');
-            // else alert('Failed to send message.');
-            else log.innerHTML('Message sent!');
-        }).catch(err => alert('Error: ' + err.message));
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(embed),
+        })
+        .then((res) => {
+            if (res.ok) {
+            log.innerHTML = "Message sent!";
+            } else {
+            log.innerHTML = "Failed to send message.";
+            }
+        })
+        .catch((err) => {
+            log.innerHTML = "Error: " + err.message;
+        });
     });
 
     async function getSettings() {
